@@ -1,0 +1,14 @@
+FAITH CLINIC COMMUNITY SETUP
+
+This package adds a community for ALL registered users (including free members).
+Features: discussions in four categories, replies, administrator hide/restore moderation, server-side authentication, basic posting limits.
+
+IMPORTANT: Local file previews cannot use /api endpoints. Deploy as a Git-connected Cloudflare Pages project with Pages Functions support, or use Wrangler deployment; a static drag-and-drop deployment may not deploy Functions. Do not assume functions are active until /api/me responds on the live domain.
+
+1. Deploy the contents of the website folder as the Cloudflare Pages project root, including functions/. For Git deployment, connect a repository with root set to website/. For Wrangler use `npx wrangler pages deploy website --project-name YOUR_PAGES_PROJECT` from the parent directory. Ensure the deployment method supports Pages Functions.
+2. Bind your existing Cloudflare D1 database (My db) to Pages Functions with binding variable name DB in the production environment.
+3. Run schema.sql in the D1 SQL console (or `wrangler d1 execute DATABASE_NAME --remote --file=website/schema.sql`). This adds community tables and preserves existing tables.
+4. Verify /api/me, /api/community/posts, registration, login and moderation on the deployed site. Register a test member.
+5. Super-admin access is NOT automatically granted. Assign role='admin' to your own verified account through a trusted D1 administrative action, never via a public registration form. Admin login is not an additional security boundary; the server checks role='admin'.
+6. Community posts are visible only to signed-in members. Visitors see a preview of categories. Content moderation is reactive (hide/restore), not automatic. Implement reporting, audit logs, CSRF defenses, email verification and abuse controls before opening to a large public community.
+7. Stripe payments and Brevo email integrations are not configured by this package. Community access is based on registered account login, independent of paid subscription status.

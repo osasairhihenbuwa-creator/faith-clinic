@@ -1,0 +1,10 @@
+FAITH CLINIC - CLOUDFLARE PAGES DEPLOYMENT
+
+This ZIP has the website/ wrapper removed so index.html and functions/ are at the project root.
+IMPORTANT: Cloudflare Pages dashboard drag-and-drop/direct ZIP uploads do NOT deploy Pages Functions. Do not upload this ZIP using the direct-upload dashboard and expect registration to work.
+
+RECOMMENDED: Extract this ZIP and commit all contents (including functions/) to a GitHub repository. In Cloudflare > Workers & Pages > Create > Pages > Connect to Git, choose that repository. Set build command to blank and output directory to / (project root), if supported by the UI. Configure the Pages project's D1 binding named DB for preview and production to the intended existing D1 database. In D1 SQL console run schema.sql against the correct database (back up first). Deploy and test /api/me (expect JSON 401 when signed out), then registration, login, logout and community.
+
+ALTERNATIVE: Use Wrangler Pages deployment from the extracted project root: npx wrangler pages deploy . --project-name=YOUR_PAGES_PROJECT. Set the D1 binding in Cloudflare project settings before testing. Check current Cloudflare documentation for any deployment changes.
+
+Keep existing live deployment unchanged until new one works. Never upload schema.sql or private config as public site assets in production: remove schema.sql, README-SETUP.txt, COMMUNITY-SETUP.txt and this instruction file from the deployed static output, or use a separate public/ build output with functions/ alongside. Note: This ZIP is a SOURCE package, not a public-site-ready static upload.
